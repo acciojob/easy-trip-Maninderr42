@@ -156,27 +156,26 @@ rev+=3000+(i*30);
         return 0;
     }
 
-    public String cancelATicket(Integer passengerId, Integer flightid){
-        if(FightPasserngerDb.containsKey(flightid)) {
-            boolean m = false;
-            List<Integer> list = FightPasserngerDb.get(flightid);
-            if (list == null) {
-                return "FAILURE";
+    public String cancelATicket(Integer passengerId, Integer flightId){
+            if (FightPasserngerDb.containsKey(flightId)) {
+                boolean removed = false;
+                List<Integer> passengerList = FightPasserngerDb.get(flightId);
+                if (passengerList == null)
+                    return "FAILURE";
+                if (passengerList.contains(passengerId)) {
+                    passengerList.remove(passengerId);
+                    removed = true;
+                }
+                if (removed) {
+                    FightPasserngerDb.put(flightId, passengerList);
+                    return "SUCCESS";
+                } else
+                    return "FAILURE";
             }
-            if (PassengerDb.containsKey(passengerId)) {
-                m = true;
-                PassengerDb.remove(passengerId);
-            }
-            if (m) {
-                FightPasserngerDb.put(flightid, list);
-                return "SUCCESS";
-            } else {
-                return "FAILURE";
-            }
-        }
             return "FAILURE";
+        }
 
 
 
-    }
+
 }
